@@ -1,0 +1,65 @@
+ek basic sa doubt lekin deep sa doubt aata hai sbko jo infact react mai bhi aaya tha mujhe lekin skip kr diya tha maine
+why jsx aisa kaam jsx kya krta hai jo hum normal js se nhi kr skte infact yahi same kaam humne custom react jab bna rhe the tab bhi yahi same kaam smjhne ki koshish ki thi
+
+JSX isn’t some new language — it’s just JavaScript with XML-like syntax.
+When you write this:
+const element = <h1>Hello, world!</h1>;
+
+It gets compiled into plain JavaScript:
+
+const element = React.createElement("h1", null, "Hello, world!");
+
+So JSX is just a nicer way of writing React.createElement.
+
+2. UI = functions of state
+
+React is built around the idea:
+
+“UI is a function of state.”
+
+So instead of separating HTML, CSS, and JS into different files (old-school way), React keeps everything for one component together:
+
+The structure (HTML/JSX)
+
+The behavior (JavaScript/TypeScript logic)
+
+The styling (CSS-in-JS or imports)
+
+This makes each component self-contained and easier to reuse.
+
+3. Developer Experience
+
+JSX makes code much easier to read and maintain.
+Compare:
+
+Without JSX:
+
+const button = React.createElement(
+  "button",
+  { onClick: () => alert("Clicked!") },
+  "Click me"
+);
+
+
+With JSX:
+
+const button = <button onClick={() => alert("Clicked!")}>Click me</button>;
+
+
+4. Static Analysis + Tooling
+
+Because JSX looks like HTML but lives inside JS, TypeScript + linters can give type safety and auto-completion right inside UI code.
+Example: if you try <img hre="...">, TypeScript will catch that hre is invalid, should be href.
+
+5. Bridges JavaScript with HTML
+
+React is all about components. JSX allows you to treat components like custom HTML tags:
+
+<UserProfile name="Tridibesh" age={20} />
+
+This looks natural, but under the hood it’s just calling:
+
+React.createElement(UserProfile, { name: "Tridibesh", age: 20 });
+
+That’s why React devs love JSX — it feels like writing HTML, but it’s actually JavaScript.
+

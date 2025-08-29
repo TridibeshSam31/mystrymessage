@@ -28,6 +28,14 @@ async function dbConnect(): Promise<void>{
        
        connection.isConnected = db.connections[0].readyState;
         console.log('Database connected successfully');
+        //db.connections → This is an array that Mongoose keeps internally. It contains all active DB connections.
+        //db.connections[0] → You’re taking the first (primary) database connection.
+        //.readyState → This is a number that shows the status of that connection:
+       // 0 → disconnected
+       // 1 → connected
+       // 2 → connecting
+       // 3 → disconnecting
+       //connection.isConnected = ... → You’re creating a property isConnected on your connection object and assigning the current state of the DB connection to it.
     } catch (error) {
         console.error('Database connection failed:', error);
         process.exit(1);
