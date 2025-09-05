@@ -10,6 +10,7 @@ export async function sendVerificationEmail(
     verifyCode: string
 ):Promise<ApiResponse>{
     try {
+        //similar thoda sa mernauthentification mai bhi kiya tha 
         await resend.emails.send({
             from: 'tridisam651@gmail.com',
             to: email,
