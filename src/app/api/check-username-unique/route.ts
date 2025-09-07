@@ -1,7 +1,7 @@
 //yeh folder humne username ko check krne ko bnaya hai ki kya username unique hai  ??
 
 import dbConnect from "@/app/lib/dbconnect";
-import {success, z} from 'zod'
+import { z} from 'zod'
 import UserModel from "@/app/model/User";
 import { usernameValidation } from "@/app/Schemas/signUpSchema"; 
 
