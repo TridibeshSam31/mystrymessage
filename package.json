@@ -9,6 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.24",
+    "@ai-sdk/react": "^2.0.34",
     "@react-email/components": "^0.5.1",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.2",
