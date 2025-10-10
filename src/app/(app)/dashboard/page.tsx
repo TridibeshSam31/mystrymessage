@@ -1,30 +1,55 @@
 'use client'
 
-import { Message } from '@/app/model/User'
-import { useSession } from 'next-auth/react'
-import React,{useState} from 'react'
 import {useForm} from 'react-hook-form'
-import {zodResolver} from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import {useDebounceValue} from 'usehooks-ts'
+import { useToast } from '@/components/hooks/use-toast'
+import { useRouter } from 'next/navigation'
+import { signUpSchema } from '@/app/Schemas/signUpSchema'
+import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
 
 const page = () => {
-    const [messages,setMessages] = useState<Message[]>([])
-    const [isLoading,setIsLoading] = useState(false)
-    const [isSwitchLoading ,setIsSwitchLoading] = useState(false)
+  const [username,setUsername] = useState('')
+  const[usernameMessage,setUsernameMessage] = useState('')
+  const [isCheckingUsername,setIsCheckingUsername] = useState(false)
+  const [isSubmitting,setIsSubmitting] = useState(false)
+
+  const debouncedUsername = useDebounceValue(username,300)
+  const {toast} = useToast()
+  const router = useRouter()
+
+  //zod implementation is same everywhere using react hook form
+
+  const form = useForm({
+    resolver: zodResolver(signUpSchema),
+    defaultValues:{
+      email:'',
+      password:'',
+      username:''
+    }
+  })
+
+  useEffect(()=>{
+    const checkUsernameUnique = async () => {
+      if(debouncedUsername){
+        setIsCheckingUsername(true)
 
 
-    const {toast} = useToast() 
-
-    const handleDeleteMessage = (messageId:string) => {
-        setMessages(messages.filter((message) => message.id!== messageId))
+      }
     }
 
-    const {data:session} = useSession()
+  },[debouncedUsername])
 
-    const form = useForm({
-        resolver: zodResolver(formSchema)
-    })
+
+
+
+    
+  
   return (
-    <div>Dashboard</div>
+    <div>page</div>
   )
 }
 
