@@ -6,7 +6,7 @@ import UserModel from "@/app/model/User";
 import dbConnect from "@/app/lib/dbconnect";
 
 //hum credential provider use kr rhe hai kyuki hum apne database se hi authenticate krna chahte hai
-export const authOptions: NextAuthOptions = {
+const authOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             id: "credentials",
@@ -79,3 +79,5 @@ export const authOptions: NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
 };
+
+export { authOptions };
