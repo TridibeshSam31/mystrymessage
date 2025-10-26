@@ -22,7 +22,8 @@ import {
 import { Input } from '@/components/ui/input';
 import {Loader2} from 'lucide-react'
 import { signInSchema } from '@/app/Schemas/signInSchema'
-import { AuthOptions } from 'next-auth'
+
+import { signIn } from 'next-auth/react';
 
 
  const page = () => {
@@ -38,7 +39,7 @@ import { AuthOptions } from 'next-auth'
   const form = useForm({
     resolver: zodResolver(signInSchema),
     defaultValues:{
-      email:'',
+      identifier:'',
       password:'',
       
     }
@@ -46,8 +47,31 @@ import { AuthOptions } from 'next-auth'
 
   
 
-  const onSubmit = async(data:z.infer<typeof signUpSchema>)=>{
-    await 
+  const onSubmit = async(data:z.infer<typeof signInSchema>)=>{
+    const result = await signIn('credentials',{
+      redirect:false,
+      identifier:data.identifier,
+      password:data.password
+    })
+    if (result?.error) {
+      if (result.error === 'CredentialsSignin') {
+        toast({
+          title: 'Login Failed',
+          description: 'Incorrect username or password',
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Error',
+          description: result.error,
+          variant: 'destructive',
+        });
+      }
+    }
+    
+    if (result?.url) {
+      router.replace('/dashboard')
+    }
   }
     
   
@@ -56,82 +80,42 @@ import { AuthOptions } from 'next-auth'
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
         <div className="text-center">
           <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-            Join True Feedback
+            Welcome Back to True Feedback
           </h1>
-          <p className="mb-4">Sign up to start your anonymous adventure</p>
+          <p className="mb-4">Sign in to continue your secret conversations</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
-              name="username"
+              name="identifier"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <Input
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      debounced(e.target.value);
-                    }}
-                  />
-                  {isCheckingUsername && <Loader2 className="animate-spin" />}
-                  {!isCheckingUsername && usernameMessage && (
-                    <p
-                      className={`text-sm ${
-                        usernameMessage === 'Username is unique'
-                          ? 'text-green-500'
-                          : 'text-red-500'
-                      }`}
-                    >
-                      {usernameMessage}
-                    </p>
-                  )}
+                  <FormLabel>Email/Username</FormLabel>
+                  <Input {...field} />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              name="email"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <Input {...field} name="email" />
-                  <p className=' text-gray-400 text-sm'>We will send you a verification code</p>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               name="password"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <Input type="password" {...field} name="password" />
+                  <Input type="password" {...field} />
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className='w-full' disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
-                </>
-              ) : (
-                'Sign Up'
-              )}
-            </Button>
+            <Button className='w-full' type="submit">Sign In</Button>
           </form>
         </Form>
         <div className="text-center mt-4">
           <p>
-            Already a member?{' '}
-            <Link href="/sign-in" className="text-blue-600 hover:text-blue-800">
-              Sign in
+            Not a member yet?{' '}
+            <Link href="/sign-up" className="text-blue-600 hover:text-blue-800">
+              Sign up
             </Link>
           </p>
         </div>
