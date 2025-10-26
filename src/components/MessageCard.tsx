@@ -37,7 +37,8 @@ const handleDelete = async () => {
     try {
         const response = await axios.delete<ApiResponse>(`/api/delete-message/${message._id}`)
         toast({
-            title:response.data.message
+        title: 'Success',
+        description: response.data.message || 'Message deleted successfully',
         })
         onMessageDelete(message._id);
     } catch (error) {
