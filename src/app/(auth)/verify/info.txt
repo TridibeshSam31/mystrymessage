@@ -1,0 +1,7 @@
+since humne apne sign up wala jo page hai usme humne verify username wala check lgaya hua hai ab hum yeh chahta 
+humne router.replace krke ek naam route likha tha 
+so hum ab dynamic data capture krna pdega username jo bhi user daalega 
+soooo to capture the daynamic data we need a folder like [username]
+
+
+naam bhi folder ka username taki parameters mai username ko hi capture kr le
