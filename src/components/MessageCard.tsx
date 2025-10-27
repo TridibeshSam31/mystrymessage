@@ -40,7 +40,7 @@ const handleDelete = async () => {
         title: 'Success',
         description: response.data.message || 'Message deleted successfully',
         })
-        onMessageDelete(message._id);
+        onMessageDelete(message._id) ;
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
